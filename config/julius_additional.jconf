@@ -1,0 +1,55 @@
+# TODO: 文字化けを治すのは不可能
+
+##
+## �ǉ��ݒ�
+##
+
+
+#################
+### �������f�� ###
+#################
+## ����HMM��`�t�@�C��
+# ascii�t�H�[�}�b�g�C������ "mkbinhmm��" �쐬�����o�C�i���`���i�������ʂ����j
+## triphone���f���̏ꍇ�C����ɘ_���I�ɏo�������� triphone -> ��`����Ă���
+# triphone �̑Ή���w�肵���uHMMList�t�@�C���v���K�v�D
+#-hlist model/dnn/logicalTri
+
+#-h model/dnn/binhmm.SID
+#-hlist model/dnn/logicalTri.bin
+
+
+
+#################
+### ���ꃂ�f�� ###
+#################
+## �P��2-gram,3-gram�t�@�C��
+# ARPA�W���`��
+#-nlr /cdrom/lang_m/20k/MNP.111.20k.1.arpa.gz		# 2-gram
+#-nrl /cdrom/lang_m/20k/MNP.111.20k.rev.1-1.10p.arpa.gz	# �t���� 3-gram
+# ������
+# mkbingram�ō쐬�����o�C�i���`��
+## ��������
+#-v model/lang_m/bccwj.60k.pdp.htkdic
+## ���ꃂ�f���d�݁E�P��}���y�i���e�B(dictation-kit�Q�l)
+
+-lmp  14 0
+-lmp2 14 0
+
+
+# �I���W�i���I
+
+-d ../lib/ssr-kit-v4.4.2.1a/models/csj.bingram
+-v ../lib/ssr-kit-v4.4.2.1a/models/csj.pdp.htkdic
+
+# ����
+-input rawfile
+
+# �󔒂ŕ��͂�؂�
+-cutsilence
+
+# �w��~���b�ȉ��̒����̓��͂���p����
+-rejectshort 200
+
+## ��2�p�X�Ō����������̂����o�͂��鐔 �i�����j
+#-output 10
+-output 1
