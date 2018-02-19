@@ -3,7 +3,7 @@
 # re_recognition.sh [Number(1-7)]
 
 DIST="data/processed/csj/$1"
-NAME="model-2-clustering-50-n-SVM-0.1.sjis"
+NAME="model-$2-clustering-50-n-SVM-0.1.sjis"
 
 
 echo "-v $NAME" > $DIST"/updated-"$NAME".jconf"

@@ -4,9 +4,9 @@
 # $2 ... モード[1-3]
 
 DIST="./data/processed/csj/$1"
-LANG_MODEL_PATH="./data/external/csj.pdp.htkdic.utf8" #utf8?
+LANG_MODEL_PATH="./data/raw/hybrid.htkdic" #utf8?
 
-CONFIG_NAME="clustering-50-n-SVM-0.1"
+CONFIG_NAME="clustering-50-10-logA-SVM-0.25"
 MODE=$2
 
 DISTANCE_PATH=$DIST/$CONFIG_NAME
