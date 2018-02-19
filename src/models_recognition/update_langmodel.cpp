@@ -57,7 +57,7 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 	std::ofstream output_dic(output_model_path);
 	std::string line;
 	std::smatch match;
-	std::regex get_word("(.*)\\+.*\\+.*");
+	std::regex get_word("(.*)\\+.*");
 	std::regex split_dict("(.*)	(.*	.*)");
 	std::regex split_at_dict("(.*)	.*	(.*	.*	.*)");
 	std::string word;
@@ -88,7 +88,7 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 				regex_match(line, match, split_dict);
 				output_dic << match[1] << "	@" << (*res).point << "	" << word << "	" << match[2] << std::endl;
 			}else{
-				std::cout << "oh!"<<std::endl;
+				//std::cout << "oh!"<<std::endl;
 				//regex_match(line, match, split_at_dict);
 				output_dic << line << std::endl;
 				//output_dic << match[1] << "	@" << (*res).point << "	" << match[2] << std::endl;
