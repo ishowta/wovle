@@ -58,22 +58,31 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 	std::string line;
 	std::smatch match;
 	std::regex get_word("(.*)\\+.*");
+	std::regex get_word2("(.*?)	.*");
 	std::regex split_dict("(.*)	(.*	.*)");
 	std::regex split_at_dict("(.*)	.*	(.*	.*	.*)");
 	std::string word;
 
 	int cnt=0;
 	while(getline(input_dic, line)){
-		if(cnt%1000==0)println(cnt);
+		if(cnt%10000==0)println(cnt);
 		++cnt;
 		bool flag_update = false;
 		line = line.erase(line.size()-1); // つらい
 		regex_match(line, match, get_word);
 		word = match[1];
-
-		//printf("a/%s/a\n", line.c_str());
-		//std::cout<<" word="<<word<<std::endl;
-		//if(cnt>10) break;
+/*
+		if(cnt != 100 && cnt<100000) continue;
+		printf("a/%s/a\n", line.c_str());
+		std::cout<<" word="<<word<<std::endl;
+*/
+		if(word==""){
+			regex_match(line, match, get_word2);
+			word = match[1];
+//					printf("a/%s/a\n", line.c_str());
+//		std::cout<<" word="<<word<<std::endl;
+		}
+//		if(cnt>100000) break;
 
 		auto res = std::find_if(updateList.begin(), updateList.end(),
 			[&](WordPoint const& list){
@@ -86,18 +95,18 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 			flag_update = true;
 			if(line.find("@") == std::string::npos){
 				regex_match(line, match, split_dict);
-				output_dic << match[1] << "	@" << (*res).point << "	" << word << "	" << match[2] << std::endl;
+				output_dic << match[1] << "	@" << (*res).point << "	" << word << "	" << match[2] << "E" << std::endl;
 			}else{
 				//std::cout << "oh!"<<std::endl;
 				//regex_match(line, match, split_at_dict);
-				output_dic << line << std::endl;
+				output_dic << line << "E" << std::endl;
 				//output_dic << match[1] << "	@" << (*res).point << "	" << match[2] << std::endl;
 			}
 			//}
 		}else{
 		}
 		if(flag_update == false){
-			output_dic << line << std::endl;
+			output_dic << line << "E" << std::endl;
 		}
 	}
 	input_dic.close();

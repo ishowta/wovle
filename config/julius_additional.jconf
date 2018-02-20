@@ -38,10 +38,10 @@
 
 # �I���W�i���I
 
-#-d ../lib/ssr-kit-v4.4.2.1a/models/csj.bingram
+-d ../lib/ssr-kit-v4.4.2.1a/models/csj.bingram
 #-v ../lib/ssr-kit-v4.4.2.1a/models/csj.pdp.htkdic
 
--d ../data/raw/corpus.bingram
+#-d ../data/raw/corpus.bingram
 -v ../data/raw/hybrid.htkdic
 
 # ����
