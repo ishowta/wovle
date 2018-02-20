@@ -6,7 +6,8 @@
 DIST="./data/processed/csj/$1"
 LANG_MODEL_PATH="./data/external/csj.pdp.htkdic.utf8" #utf8?
 
-CONFIG_NAME="clustering-50-n-SVM-0.1"
+#50-10-A-SVM-0.1 50-5-sqrtA-LOF-0.5-35
+CONFIG_NAME="clustering-50-5-sqrtA-LOF-0.5-35"
 MODE=$2
 
 DISTANCE_PATH=$DIST/$CONFIG_NAME

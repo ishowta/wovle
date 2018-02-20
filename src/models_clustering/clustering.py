@@ -100,11 +100,12 @@ model_params = {
 print("DISP START")
 
 param_list = [
-    (0,'logA',5,'LOF'),
+    (0,'A',10,'SVM'),
+    (0,'sqrtA',5,'LOF')
 ]
 model_param_list = {
-    'SVM': [[0.1,0.25]],
-    'LOF': [[0.5],[5]],
+    'SVM': [[0.1]],
+    'LOF': [[0.5],[35]],
 }
 
 from matplotlib import pyplot as plt
