@@ -1,4 +1,4 @@
-NAME="model-$2-clustering-50-n-SVM-0.1.sjis.txt"
+NAME="model-$2-clustering-$3.txt" #.sjis
 
 DIST="data/processed/csj/$1"
 ANSWER="data/external/CJLC-0.1/$1.txt"

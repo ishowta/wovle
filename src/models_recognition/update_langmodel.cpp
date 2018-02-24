@@ -57,7 +57,7 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 	std::ofstream output_dic(output_model_path);
 	std::string line;
 	std::smatch match;
-	std::regex get_word("(.*)\\+.*\\+.*");
+	std::regex get_word("(.*)\\+.*");
 	std::regex split_dict("(.*)	(.*	.*)");
 	std::regex split_at_dict("(.*)	.*	(.*	.*	.*)");
 	std::string word;
@@ -86,18 +86,18 @@ void updateDict(std::vector<WordPoint> updateList, std::string input_model_path,
 			flag_update = true;
 			if(line.find("@") == std::string::npos){
 				regex_match(line, match, split_dict);
-				output_dic << match[1] << "	@" << (*res).point << "	" << word << "	" << match[2] << std::endl;
+				output_dic << match[1] << "	@" << (*res).point << "	" << word << "	" << match[2] << "E" << std::endl;
 			}else{
-				std::cout << "oh!"<<std::endl;
+				//std::cout << "oh!"<<std::endl;
 				//regex_match(line, match, split_at_dict);
-				output_dic << line << std::endl;
+				output_dic << line << "E" << std::endl;
 				//output_dic << match[1] << "	@" << (*res).point << "	" << match[2] << std::endl;
 			}
 			//}
 		}else{
 		}
 		if(flag_update == false){
-			output_dic << line << std::endl;
+			output_dic << line << "E" << std::endl;
 		}
 	}
 	input_dic.close();
@@ -143,8 +143,8 @@ int main (int argc, char* argv[]) {
 			//point = (point - 0.20) < 0 ? 0.0 : (point - 0.20) * 20.0;
 			//point = (point - 0.20) < 0 ? 0.0 : ((point-0.20) * 20) * ((point-0.20) * 20) * 2;
 			//point = (point - 0.20) < 0 ? 0.0 : 2.0;
-			point = (point - cent_point) * (1.0 / (max_point - cent_point)) * 3.5;
-			if(point>3.5) point = 3.5;
+			point = (point - cent_point) * (1.0 / (max_point - cent_point)) * 2.5;
+			if(point>2.5) point = 2.5;
 			//if(point<0.0) point = 0.0;
 			wordPoint_dict.emplace_back(WordPoint(word,point));
 		}
