@@ -171,7 +171,7 @@ int main (int argc, char* argv[]) {
 			//重み付け
 			float under = point_list[1200];
 			point = (point - under) * (1.0 / (max_point - under)) * 2.5;
-			if(point>2.0) point = 2.0;
+			if(point>2.5) point = 2.5;
 			point += 0.5;
 			wordPoint_dict.emplace_back(WordPoint(word,point));
 		}
