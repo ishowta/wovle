@@ -33,6 +33,12 @@ w2v_all = [
     pd.read_pickle(ext+'/w2v200.pd')
 ]
 
+w = w2v_all[0]
+#w = w[w.isInDic == True]
+w2v_all[0] = w[w.isNWord == True].ix[:,0:50]
+w = w2v_all[1]
+w2v_all[1] = w[w.isNWord == True].ix[:,0:200]
+
 w2v_all = [w[~w.index.isin(gw[0])] for w in w2v_all]
 
 w2v_freq = [w[w.index.isin(freq['単語'])] for w in w2v_all]

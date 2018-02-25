@@ -78,6 +78,7 @@ target/
 # exclude data from source control by default
 /data/
 /temp/
+/,/
 
 # Mac yeah...
 .DS_Store

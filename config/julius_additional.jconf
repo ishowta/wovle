@@ -38,8 +38,10 @@
 
 # �I���W�i���I
 
--d ../lib/ssr-kit-v4.4.2.1a/models/csj.bingram
--v ../lib/ssr-kit-v4.4.2.1a/models/csj.pdp.htkdic
+#-d ../lib/ssr-kit-v4.4.2.1a/models/csj.bingram
+#-v ../lib/ssr-kit-v4.4.2.1a/models/csj.pdp.htkdic
+-d ../lib/dictation-kit/model/lang_m/bccwj.60k.bingram
+-v ../lib/dictation-kit/model/lang_m/bccwj.60k.pdp.htkdic
 
 # ����
 -input rawfile
