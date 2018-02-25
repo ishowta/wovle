@@ -10,9 +10,10 @@ mkdir $DIST
 
 echo "First recognitoin with Julius..."
 echo "data/external/CJLC-0.1/$1.wav" > $DIST/filelist.txt
-lib/julius \
-    -C lib/ssr-kit-v4.4.2.1a/main.jconf \
+julius \
+    -C lib/dictation-kit/main.jconf \
+    -C lib/dictation-kit/am-dnn.jconf \
     -C config/julius_additional.jconf \
-    -dnnconf config/julius_dnn.dnnconf \
+    -dnnconf lib/dictation-kit/julius.dnnconf \
     -filelist $DIST/filelist.txt \
     > $DIST/recognition.txt
