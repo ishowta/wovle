@@ -10,7 +10,7 @@ problem_number = sys.argv[1]
 mode_number = '3'
 model_name = sys.argv[2] #"old-50-10-A" #"50-10-A-SVM-0.1"
 features_path = './data/processed/csj/'+problem_number+'/clustering-'+model_name
-dic_path = './data/external/hybrid.htkdic'
+dic_path = './data/external/hybrid_onso.htkdic'
 updated_dic_path = './data/processed/csj/'+problem_number+'/model-'+mode_number+'-clustering-'+version+model_name
 
 print("1/3 read")
@@ -36,6 +36,7 @@ with open(dic_path) as fin:
             data = line.split('\t')
             isMistake = data[0]
             data = data[1:]
+            line = '\t'.join(data)
             if isMistake == '1': # 音素列が短いので変更せずそのまま出力する
                 fout.write(line)
             elif cnt < 3:
