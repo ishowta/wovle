@@ -105,12 +105,22 @@ model_params = {
 
 print("DISP START")
 
+"""
 param_list = [
     (0,'A',10,'SVM'),
     (0,'sqrtA',5,'LOF')
 ]
 model_param_list = {
     'SVM': [[0.1]],
+    'LOF': [[0.5],[35]],
+}
+"""
+param_list = [
+    (0,'A',10,'SVM'),
+    (0,'sqrtA',5,'LOF')
+]
+model_param_list = {
+    'SVM': [[0.25]],
     'LOF': [[0.5],[35]],
 }
 

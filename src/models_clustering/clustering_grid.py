@@ -238,4 +238,4 @@ for param in product(*params):
 answer = pd.DataFrame(answer).T
 answer['point'] = (answer[0]+answer[1]+answer[2])/3
 answer = answer.sort_values(by='point',ascending=False)
-answer.to_pickle(dist+"/grid_result_otsu.pd")
+answer.to_pickle(dist+"/grid_result.pd")
