@@ -4,7 +4,7 @@ import sys,os
 from IPython import embed
 from tqdm import tqdm as monitor
 
-version = 'v10-'
+version = 'v11-'
 
 problem_number = sys.argv[1]
 mode_number = '3'
@@ -22,9 +22,9 @@ features = features.iloc[0:4200]
 f_upper = features.iloc[20-1][1]
 f_lower = features.iloc[4200-1][1]
 f_range = f_upper - f_lower
-#features['point'] = [max(1.0, 0.5 + min(2.5, (feature - f_lower) / f_range * 2.5 )) for feature in features[1]] # 1.0~3.0
+features['point'] = [max(1.0, 0.5 + min(2.5, (feature - f_lower) / f_range * 2.5 )) for feature in features[1]] # 1.0~3.0
 #features['point'] = [max(2.0, 2.0 + min(1.0, (feature - f_lower) / f_range * 1.0 )) for feature in features[1]]  # 2.0~3.0
-features['point'] = [2.0 for feature in features[1]]  # 2.0
+#features['point'] = [2.0 for feature in features[1]]  # 2.0
 # Make dictionary
 features_dic = {str(feature[0]).replace(' ',''):str(feature['point']) for i, feature in features.iterrows()}
 
