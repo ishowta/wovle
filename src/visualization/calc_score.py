@@ -68,7 +68,7 @@ for line in line_list:
         isEmMode = False
         for word in word_list:
             word = chrF(word)
-            word = word.replace('&#12290;','').replace('&#12289;','')
+            word = word.replace('、','').replace('。','')
             word = word.replace('<td>','').replace('b\'','')
             word = word.replace('<em></em>',"") #空白の削除
             if word == '':
