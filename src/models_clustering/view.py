@@ -241,13 +241,14 @@ for param in ap:
     sea.distplot(xg[yg], kde=True, rug=True)
     #ax.scatter(xg,yg)
     ax.grid(True)
-    ax.title.set_text(
-        ' w='+('50' if w2v_param == 0 else '200')
-        +' ty='+a_type
-        +' th='+str(count_threshold)
-        +' m='+clustering_model_type
-        +' p1='+str(model_param[0])
-        +' p2='+str("none" if len(model_param) == 1 else model_param[1])
-    )
+    #ax.title.set_text(
+    #    ' w='+('50' if w2v_param == 0 else '200')
+    #    +' ty='+a_type
+    #    +' th='+str(count_threshold)
+    #    +' m='+clustering_model_type
+     #   +' p1='+str(model_param[0])
+     #   +' p2='+str("none" if len(model_param) == 1 else model_param[1])
+    #)
+    ax.title.set_text("("+str(scnt+1)+")")
     #ax.axis([np.partition(xg, 0)[0],xg.max(), -0.2, 1.2])
     scnt += 1
