@@ -29,7 +29,24 @@ with open(dist_path+"/diff.html", 'w') as f:
 print("2/2 Calc diff")
 html = read(dist_path+'/diff.html')
 html = html.replace('&nbsp;','')
-dom = lxml.html.fromstring(html)
+
+def RepresentsInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+def ordF(s):
+    return "".join([","+str(ord(c))+"," if ord(c) > 128 else c for c in s])
+def chrF(s):
+    return "".join([chr(int(w)) if RepresentsInt(w) else w for w in s.split(",")])
+
+html_orded = ordF(html)
+
+
+
+
+dom = lxml.html.fromstring(html_orded)
 line_list = dom.xpath('//*[@id="result"]/table/tr')
 
 cnt=0
@@ -50,6 +67,7 @@ for line in line_list:
         print("*********************************************************")
         isEmMode = False
         for word in word_list:
+            word = chrF(word)
             word = word.replace('&#12290;','').replace('&#12289;','')
             word = word.replace('<td>','').replace('b\'','')
             word = word.replace('<em></em>',"") #空白の削除
