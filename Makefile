@@ -29,6 +29,24 @@ requirements: test_environment
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py
 
+recognition:
+	src/data/recognition.sh ${no}
+
+build-features:
+	src/features/build_features.sh ${no}
+
+clustering:
+	$(PYTHON_INTERPRETER) src/models_clustering/clustering.py ${no}
+
+update:
+	$(PYTHON_INTERPRETER) src/models_recognition/update_language_model.py ${no} ${param}
+
+re-recognition:
+	src/visualization/re_recognition.sh ${no} ${param}
+
+score:
+	src/visualization/calc_score.sh ${no} ${param}
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete

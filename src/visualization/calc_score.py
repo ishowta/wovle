@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import lxml.html
-from lxml import etree
-import sys, os, re
+import sys
 import requests
+
 
 def read(path):
     f = open(path)
@@ -11,28 +11,30 @@ def read(path):
     f.close()
     return data
 
+
 print("1/2 Get diff")
 answer_file_path = sys.argv[1]
 recog_file_path = sys.argv[2]
 dist_path = sys.argv[3]
+name = sys.argv[4]
 answer = read(answer_file_path)
 recog = read(recog_file_path)
 data = {
-    'sequenceA':answer,
-    'sequenceB':recog
+    'sequenceA': answer,
+    'sequenceB': recog
 }
-response = requests.post('https://difff.jp/',data)
+response = requests.post('https://difff.jp/', data)
 print("Html:response:"+str(response.status_code))
-with open(dist_path+"/diff.html", 'w') as f:
-  f.write(response.text)
+diff_url = dist_path+"/diff-"+name+".html"
+with open(diff_url, 'w') as f:
+    f.write(response.text)
 
 print("2/2 Calc diff")
-html = read(dist_path+'/diff.html')
-html = html.replace('&nbsp;','')
+html = read(diff_url)
+html = html.replace('&nbsp;', '')
 dom = lxml.html.fromstring(html)
 line_list = dom.xpath('//*[@id="result"]/table/tr')
 
-cnt=0
 
 def check(str):
     if str == "、" or str == "。" or str == "" or str == "\n":
@@ -40,19 +42,21 @@ def check(str):
     else:
         return True
 
+
+cnt = 0
 correct_cnt = 0
 error_cnt = 0
 
 for line in line_list:
     text = line.xpath('td[1]')[0]
     word_list = str(lxml.html.tostring(text)).split(' ')
-    if word_list != ["b'<td></td>\\n\\t'"] and 'font' not in word_list[0]: #skip
+    if word_list != ["b'<td></td>\\n\\t'"] and 'font' not in word_list[0]:  # skip
         print("*********************************************************")
         isEmMode = False
         for word in word_list:
-            word = word.replace('&#12290;','').replace('&#12289;','')
-            word = word.replace('<td>','').replace('b\'','')
-            word = word.replace('<em></em>',"") #空白の削除
+            word = word.replace('&#12290;', '').replace('&#12289;', '')
+            word = word.replace('<td>', '').replace('b\'', '')
+            word = word.replace('<em></em>', "")  # 空白の削除
             if word == '':
                 continue
             if '</td>' in word:

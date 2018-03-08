@@ -3,6 +3,37 @@ wovle
 
 update language model via word2vec
 
+## 使い方
+
+1. ソフトウェアのインストール
+    1. 以下のソフトウェアをインストール
+        `python, nkf, wget, unar, curl, mecab, libmecab-dev, mecab-ipadic-utf8`
+    1. `./make requirements` （バージョンは固定してしまってるので適宜いい感じにする）
+1. データのダウンロード
+    1. 本を開く（`cd ./notebook && jupyter notebook`）
+    1. jupyterで`00-download-data.ipynb`を実行する
+1. 前処理
+    - `./make data`
+
+    ...で実行させたかったけど疲れたので無し  
+    jupyterで`10,20,30`を順番に実行する。
+1. 音声認識
+    - `./make recognition no=[音声No]`
+1. 特徴量抽出
+    - `./make build-features no=[音声No]`
+1. クラスタリング
+    - `./make clustering no=[音声No]`
+    - `clustering_grid.pyでグリッドサーチ（未整備）`
+1. 言語モデル更新
+    - `./make update no=[音声No] param=[パラメータ文字列]`
+1. 再認識
+    - `./make re-recognition no=[音声No] param=[パラメータ文字列]`
+1. 認識率表示
+    - `./make score no=[音声No] param=[パラメータ文字列]`
+    - `calc_score_meisi.shで名詞のみの認識率（未整備）`
+    - `（lxmlにがんばって日本語を通すと任意の単語が認識できたかがわかるので、`
+      `品詞の割合などが読み取れる（実装コードはここにはない））`
+
 Project Organization
 ------------
 

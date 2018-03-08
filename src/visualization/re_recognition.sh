@@ -2,8 +2,8 @@
 
 # re_recognition.sh [Number(1-7)]
 
-DIST="data/processed/csj/$1"
-NAME="model-3-clustering-$2" #-old-50-10-A" #"model-3-clustering-50-10-A-SVM-0.1"
+DIST="data/processed/corpus/$1"
+NAME="model-clustering-$2"
 
 echo "-v $NAME" > $DIST"/updated-"$NAME".jconf"
 
