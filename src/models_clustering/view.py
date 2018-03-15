@@ -4,7 +4,13 @@ import pandas as pd
 import sys, os
 import seaborn as sea
 
+np.random.seed(106432)#716532
 
+def drange(begin, end, step):
+    n = begin
+    while n+step < end:
+     yield n
+     n += step
 #https://gist.github.com/yumatsuoka/c6402870493adc89b881a0fd263c3628
 def calc_anv(hist):
     """
@@ -69,11 +75,11 @@ w2v_all = [
 
 w = w2v_all[0]
 #w = w[w.isInDic == True]
-w2v_all[0] = w[w.isNWord == True].ix[:,0:50]
-w = w2v_all[1]
-w2v_all[1] = w[w.isNWord == True].ix[:,0:200]
 
-w2v_all = [w[~w.index.isin(gw[0])] for w in w2v_all]
+#w2v_all[0] = w[w.isNWord == True].ix[:,0:50]
+#w = w2v_all[1]
+#w2v_all[1] = w[w.isNWord == True].ix[:,0:200]
+#w2v_all = [w[~w.index.isin(gw[0])] for w in w2v_all]
 
 w2v_freq = [w[w.index.isin(freq['単語'])] for w in w2v_all]
 
@@ -149,13 +155,39 @@ model_param_list = {
     'LOF': [[0.05,0.5],[5,35]],
 }
 
-ap = pd.read_pickle('./pnpd.pd')
-ap = ap.values.tolist()
-ap.reverse()
+#ap = pd.read_pickle('./pnpd.pd')
+#ap = ap.values.tolist()
+#ap.reverse()
+ap = [
+    ["200", 0, "A", "IF", 0.5,None],
+    ["200", 0, "sqrtA", "IF", 0.5, 35],
+    ["200", 0, "A", "SVM", 0.05,None],
+    ["200", 0, "A", "SVM", 0.1,None],
+    ["50", 5, "sqrtA", "LOF", 0.5, 35],
+    ["50", 10, "A", "SVM", 0.25,None],
+    ["50", 5, "A", "LOF", 0.5, 35],
+    ["50", 5, "logA", "LOF", 0.5, 35],
+]
+#ap.reverse()
+
+dat = []
 
 print("DISP START")
 
 from matplotlib import pyplot as plt
+w2v = w2v_freq[1]
+#w2v_a = w2v_all[param[0]]
+w2v_param = 1
+
+
+
+V = w2v[w2v.index.isin(freq[freq['A']     > 10             ]['単語'])]
+F = w2v[w2v.index.isin(freq[freq['正誤'] == False           ]['単語'])]
+
+msk = np.random.rand(len(V)) < 0.4
+trainV = V[msk]
+testV = V[~msk]
+
 
 cnt = 0
 scnt = 1
@@ -163,14 +195,16 @@ fig = plt.figure()
 for param in ap:
     #if param not in param_list:
     #    continue
-    w2v = w2v_freq[0 if param[0] == '50' else 1]
-    #w2v_a = w2v_all[param[0]]
-    w2v_param = 0 if param[0] == '50' else 1
+
     a_type = param[2]
     count_threshold = int(param[1])
     clustering_model_type = param[3]
 
     model_param = [float(param[4]), int(param[5]) if param[5] != None else None]
+
+    C = w2v[w2v.index.isin(freq[freq['A']     > count_threshold  ]['単語'])]
+    X = C[~C.index.isin(trainV.index)] #X is train
+    Z = testV.append(F) #Z is test
 
     if scnt == 5:
         fig.canvas.set_window_title(
@@ -197,17 +231,11 @@ for param in ap:
 #        continue
     #X = w2v[w2v.index.isin(freq[freq['A'] > count_threshold]['単語'])]
     #Z = w2v[w2v.index.isin(freq[(freq['A'] > 10) | (freq['正誤'] == False)]['単語'])]
-    C = w2v[w2v.index.isin(freq[freq['A']     > count_threshold  ]['単語'])]
-    V = w2v[w2v.index.isin(freq[freq['A']     > 10             ]['単語'])]
-    F = w2v[w2v.index.isin(freq[freq['正誤'] == False           ]['単語'])]
-    msk = np.random.rand(len(V)) < 0.6
-    trainV = V[msk]
-    testV = V[~msk]
-    X = C[~C.index.isin(trainV.index)] #X is train
-    Z = testV.append(F) #Z is test
+
 
     print("param=")
     print(param)
+
 
     if a_type != 'n':
         X_cnt = [ int(np.round(freq[freq['単語'] == word][a_type])) for word in X.index]
@@ -237,10 +265,28 @@ for param in ap:
     xg = np.array(score) # z
     #ax.hist(xg[~yg],normed=True)
     #ax.hist(xg[yg],normed=True)
-    sea.distplot(xg[~yg], kde=True, rug=True)
-    sea.distplot(xg[yg], kde=True, rug=True)
+    sea.distplot(xg[~yg], bins=10,kde=False, hist=True,hist_kws={"range": [xg.min(),xg.max()]})
+    sea.distplot(xg[yg], bins=10,kde=False, hist=True,hist_kws={"range": [xg.min(),xg.max()]})
+    #a = min(xg)
+    #b = max(xg)
+    #edges = drange(a,b,10)
+    print(xg)
+    print(yg)
+    print(xg.min())
+    print(xg.max())
+    dat.append([xg,yg])
+    #ax.hist(xg[~yg], bins=10, normed=True, color='red')
+    #ax.hist(xg[yg], bins=10, normed=True, color='blue')
+    #print(xg[yg])
     #ax.scatter(xg,yg)
     ax.grid(True)
+
+    plt.rcParams['font.family'] = 'IPAPGothic' #全体のフォントを設定
+    import matplotlib.ticker as ticker
+    plt.gca().get_yaxis().set_major_locator(ticker.MaxNLocator(integer=True))
+    plt.ylabel("frequency")
+    plt.xlabel("E(w)")
+
     #ax.title.set_text(
     #    ' w='+('50' if w2v_param == 0 else '200')
     #    +' ty='+a_type
@@ -249,6 +295,9 @@ for param in ap:
      #   +' p1='+str(model_param[0])
      #   +' p2='+str("none" if len(model_param) == 1 else model_param[1])
     #)
-    ax.title.set_text("("+str(scnt+1)+")")
+    ax.title.set_text("("+str(scnt+4)+")")
+    ax.axis([np.partition(xg, 0)[0],xg.max(), 0, 20])
+    #plt.show()
     #ax.axis([np.partition(xg, 0)[0],xg.max(), -0.2, 1.2])
     scnt += 1
+
